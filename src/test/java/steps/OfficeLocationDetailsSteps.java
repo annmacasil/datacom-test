@@ -36,50 +36,57 @@ public class OfficeLocationDetailsSteps {
     }
 
     @When("I click on the location {string}")
-    public void iClickOnTheLocation(String locationName) throws InterruptedException {
+    public void iClickOnTheLocation(String locationName)  {
         locDetails.clickLocation(locationName);
-
 
     }
 
-    @Then("I see the details: address {string}, phone number {string} and email {string} for location {string}")
-    public void iSeeTheDetailsAddressPhoneNumberEmail(String address, String phone, String email, String location) throws InterruptedException {
-        //locDetails.verifyOfficeLocationName(officeLocation);
+    @Then("I see the following details for {string} office in {string} : address {string}, phone number {string} and email {string}")
+    public void iSeeTheDetailsAddressPhoneNumberEmail(String officeLocation, String location, String address, String phone, String email) {
         locDetails.verifyAddress(address, location);
         locDetails.verifyPhoneNumber(phone, location);
         locDetails.verifyEmail(email, location);
-
     }
     @Given("I am in {string} location tab of {string} page")
     public void iAmInLocationTabOfPage(String location, String officeLocation) {
-        locDetails.verifyPage(location);
-        locDetails.verifyPage(officeLocation);
+        locDetails.clickLocation(location);
     }
 
     @When("I select an office location {string}")
-    public void iSelectAnOfficeLocation(String officeLocation) throws InterruptedException {
+    public void iSelectAnOfficeLocation(String officeLocation) {
         locDetails.selectOfficeLocation(officeLocation);
     }
 
-    @When("I click on the Get Directions link")
-    public void iClickOnTheGetDirectionsLink(){
-        locDetails.clickGetDirectionsLink();
+    @When("I click on the Get Directions link for {string} office")
+    public void iClickOnTheGetDirectionsLink(String officeLocation){
+        locDetails.clickGetDirectionsLink(officeLocation);
     }
-    @When("I click on the Phone Number link")
-    public void iClickOnThePhoneNumberLink(){
-       // locDetails.clickPhoneNumberLink();
-    }
-
-    @When("I click on the Email link")
-    public void iClickOnTheEmailLink(){
-       // locDetails.clickEmailLink();
+    @When("I click on the Phone Number link in {string} office")
+    public void iClickOnThePhoneNumberLink(String officeLocation){
+        locDetails.clickPhoneNumberLink(officeLocation);
     }
 
-/*    @Then("I am navigated to Google Maps")
+    @When("I click on the Email link in {string} office")
+    public void iClickOnTheEmailLink(String officeLocation){
+       locDetails.clickEmailLink(officeLocation);
+    }
+
+    @Then("I am navigated to Google Maps")
     public void iAmNavigatedToGoogleMaps() {
-        assertTrue((locDetails.verifyNavigatedPage()).contains("googlemaps"));
+        locDetails.verifyGetDirectionsLink();
 
-    }*/
+    }
+    @Then("I verify the phone link is correct in {string} location")
+    public void iSeeAnAlertPopUpToPickAnAppForCall(String officeLocation) {
+        locDetails.verifyPhoneLink(officeLocation);
+
+    }
+
+    @Then("I verify the mailto link is correct in {string} location")
+    public void iVerifyMailToIsCorrectl(String officeLocation) {
+        locDetails.verifyMailToLink(officeLocation);
+
+    }
 
     @After
     public void tearDown(){

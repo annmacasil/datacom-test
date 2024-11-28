@@ -1,9 +1,6 @@
 package common;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -28,10 +25,8 @@ public class BasePage {
         this.driver = driver;
     }
 
-    public void navigateTo(String url) throws IOException {
-        // driver = initializeWebDriver();
+    public void navigateTo(String url) {
         driver.get(url);
-
     }
     public void click(By locator, String value){
         WebElement e = driver.findElement(getLocatorByName(locator, value));
@@ -105,6 +100,11 @@ public class BasePage {
         return values;
 
     }
+
+    public void waitForUrlChange(String currentUrl) {
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentUrl)));
+    }
     public void waitForVisibility(By locator){
         waitForElement(locator,DEFAULT_TIMEOUT);
     }
@@ -126,6 +126,18 @@ public class BasePage {
 
     public String getCurrentURL(){
         return driver.getCurrentUrl();
+
+    }
+
+    public String getAttributeHref(By locator){
+        WebElement e = driver.findElement(locator);
+        return e.getAttribute("href");
+    }
+
+    public void cancelAlertPop(){
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.alertIsPresent());
+        Alert alert = driver.switchTo().alert();
+        alert.dismiss();
 
     }
 
